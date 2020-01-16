@@ -39,7 +39,7 @@ int main() {
         return 1;
     }
 
-    SDL_Surface *surface = IMG_Load("imgs/newyearalien2.png");
+    SDL_Surface *surface = IMG_Load("../imgs/newyearalien2.png");
 
     if (!surface) {
         printf("Error creating surface\n");

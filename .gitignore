@@ -1,3 +1,7 @@
 ### c ###
 /c/app
 /c/*.o
+
+### nim ###
+/nim/*
+!/nim/*.nim
