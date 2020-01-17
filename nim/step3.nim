@@ -51,6 +51,7 @@ proc main() =
     sdl.quit()
 
   tex = sdl.createTextureFromSurface(rend, surface)
+  surface.freeSurface()
 
   if tex.isNil:
     echo "ERROR: Couldn't create texture: ", sdl.getError()
