@@ -59,8 +59,18 @@ proc main() =
     window.destroyWindow()
     sdl.quit()
 
-  discard rend.renderClear()
-  discard rend.renderCopy(tex, nil, nil)
+  if rend.renderClear() != 0:
+    echo "ERROR: Couldn't render clear: ", sdl.getError()
+    rend.destroyRenderer()
+    window.destroyWindow()
+    sdl.quit()
+
+  if rend.renderCopy(tex, nil, nil) != 0:
+    echo "ERROR: Couldn't render copy: ", sdl.getError()
+    rend.destroyRenderer()
+    window.destroyWindow()
+    sdl.quit()
+
   rend.renderPresent()
   
   sdl.delay(5000)
