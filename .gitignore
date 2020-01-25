@@ -6,3 +6,7 @@
 /nim/*
 !/nim/Makefile
 !/nim/*.nim
+
+### rust ###
+/rust/target/
+/rust/Cargo.lock
