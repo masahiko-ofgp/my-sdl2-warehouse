@@ -11,7 +11,7 @@ use std::path::Path;
 const TITLE: &'static str = "My SDL Window";
 const WINDOW_WIDTH: u32 = 640;
 const WINDOW_HEIGHT: u32 = 480;
-const SCROLL_SPEED: i32 = 300;
+const SPEED: i32 = 300;
 
 
 fn main() -> Result<(), String> {
@@ -32,11 +32,15 @@ fn main() -> Result<(), String> {
     let img = Path::new("imgs/newyearalien2.png");
     let surface = Surface::from_file(&img)?;
     let mut dest = Rect::new(
-        ((WINDOW_WIDTH - 300) / 2) as i32,
-        480,
-        300,
-        300
+        ((WINDOW_WIDTH - surface.width()) / 2) as i32,
+        ((WINDOW_HEIGHT - surface.height()) / 2) as i32,
+        surface.width() / 4,
+        surface.height() / 4
     );
+    let mut x_pos = ((WINDOW_WIDTH - dest.width()) / 2) as i32;
+    let mut y_pos = ((WINDOW_HEIGHT - dest.height()) / 2) as i32;
+    let mut x_vel = SPEED;
+    let mut y_vel = SPEED;
 
     let texture_creator = canvas.texture_creator();
     let tex = texture_creator.create_texture_from_surface(&surface)
@@ -56,11 +60,28 @@ fn main() -> Result<(), String> {
                 _ => {}
             }
         }
-        if dest.y >= -(dest.height() as i32) {
-            dest.set_y(dest.y - SCROLL_SPEED / 60);
-        } else {
-            break 'running;
+        if x_pos <= 0 {
+            x_pos = 0;
+            x_vel = -(x_vel);
         }
+        if y_pos <= 0 {
+            y_pos = 0;
+            y_vel = -(y_vel);
+        }
+        if x_pos >= (WINDOW_WIDTH - dest.width()) as i32 {
+            x_pos = (WINDOW_WIDTH - dest.width()) as i32;
+            x_vel = -(x_vel);
+        }
+        if y_pos >= (WINDOW_HEIGHT - dest.height()) as i32 {
+            y_pos = (WINDOW_HEIGHT - dest.height()) as i32;
+            y_vel = -(y_vel);
+        }
+        x_pos += x_vel / 60;
+        y_pos += y_vel / 60;
+
+        dest.set_y(y_pos as i32);
+        dest.set_x(x_pos as i32);
+        
 
         thread::sleep(Duration::new(0, 1_000_000_000u32 / 60));
     }
