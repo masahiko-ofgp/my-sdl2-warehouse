@@ -1,5 +1,13 @@
 # My SDL2 warehouse
 
+- step1 Initializing SDL
+- step2 Create Window
+- step3 Display the image
+- step4 Animation of image rising
+- step5 The image is reflected on the wall
+- step6 Operate the image with keyboard
+- step7 Operate the image with mouse
+
 ## Requires
 
 sdl2, sdl2_image
@@ -7,30 +15,25 @@ sdl2, sdl2_image
 ## c
 
 ```
-$ make SRCS=ファイル.c
+$ make SRCS=filename.c
 $ ./app
 ```
 
 ## nim
 
-Nimでは`sdl2`と`sdl2nim`がありますが、後者のほうを使います。
+I used `sdl2nim` not `sdl2`.
 
 ```
 $ nimble install sdl2nim
 ```
 
-コンパイルは
+compile:
 
 ```
-$ make SRCS=ファイル.nim
+$ make SRCS=filename.nim
 ```
-コンパイラオプションは各自のお好みで。
 
 ## rust
-
-stepNのNの部分は各ステップの番号と置き換えて実行します。
-
-自動で終了するものもありますが、ウィンドウのXをクリックすれば終了できます。
 
 ```
 $ cargo run --bin stepN
