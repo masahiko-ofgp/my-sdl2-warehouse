@@ -46,12 +46,11 @@ fn main() -> Result<(), String> {
 
     let mut event_pump = sdl_ctx.event_pump()?;
 
-    let mut up = true;
-    let mut down = true;
-    let mut left = true;
-    let mut right = true;
+    let mut up = false;
+    let mut down = false;
+    let mut left = false;
+    let mut right = false;
 
-    // FIXME: Behavior is strange at first, but then normal.
     'running: loop {
         canvas.clear();
         canvas.copy(&tex, None, dest)?;
@@ -128,11 +127,9 @@ fn main() -> Result<(), String> {
         }
 
         dest.set_y(y_pos as i32);
-        dest.set_x(x_pos as i32);
-        
+        dest.set_x(x_pos as i32);        
 
         thread::sleep(Duration::new(0, 1_000_000_000u32 / 60));
     }
-
     Ok(())
 }

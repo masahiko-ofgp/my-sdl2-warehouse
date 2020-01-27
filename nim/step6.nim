@@ -68,10 +68,10 @@ proc main() =
     x_vel: float
     y_vel: float
     close_requested = true
-    up = true
-    down = true
-    left = true
-    right = true
+    up = false
+    down = false
+    left = false
+    right = false
 
   if tex.queryTexture(nil, nil, addr(dest.w), addr(dest.h)) != 0:
     echo "ERROR: Couldn't query texture: ", sdl.getError()
@@ -87,6 +87,13 @@ proc main() =
   y_vel = float(0)
 
   while close_requested:
+    if rend.renderClear() != 0:
+      break
+
+    if rend.renderCopy(tex, nil, addr(dest)) != 0:
+      break
+
+    rend.renderPresent()
 
     while sdl.pollEvent(addr(event)) != 0:
       case event.kind:
@@ -96,56 +103,56 @@ proc main() =
       of EventKind.KEYDOWN:
         case event.key.keysym.scancode:
         of Scancode.SCANCODE_W:
-          up = false
+          up = true
           break
         of Scancode.SCANCODE_UP:
-          up = false
+          up = true
           break
         of Scancode.SCANCODE_A:
-          left = false
+          left = true
           break
         of Scancode.SCANCODE_LEFT:
-          left = false
+          left = true
           break
         of Scancode.SCANCODE_S:
-          down = false
+          down = true
           break
         of Scancode.SCANCODE_DOWN:
-          down = false
+          down = true
           break
         of Scancode.SCANCODE_D:
-          right = false
+          right = true
           break
         of Scancode.SCANCODE_RIGHT:
-          right = false
+          right = true
           break
         else:
           break
       of EventKind.KEYUP:
         case event.key.keysym.scancode:
         of Scancode.SCANCODE_W:
-          up = true
+          up = false
           break
         of Scancode.SCANCODE_UP:
-          up = true
+          up = false
           break
         of Scancode.SCANCODE_A:
-          left = true
+          left = false
           break
         of Scancode.SCANCODE_LEFT:
-          left = true
+          left = false
           break
         of Scancode.SCANCODE_S:
-          down = true
+          down = false
           break
         of Scancode.SCANCODE_DOWN:
-          down = true
+          down = false
           break
         of Scancode.SCANCODE_D:
-          right = true
+          right = false
           break
         of Scancode.SCANCODE_RIGHT:
-          right = true
+          right = false
           break
         else:
           break
@@ -156,16 +163,16 @@ proc main() =
     y_vel = float(0)
 
     if (up == true) and (down == false):
-      y_vel = float(SPEED)
-
-    if (down == true) and (up == false):
       y_vel = -float(SPEED)
 
+    if (down == true) and (up == false):
+      y_vel = float(SPEED)
+
     if (left == true) and (right == false):
-      x_vel = float(SPEED)
+      x_vel = -float(SPEED)
 
     if (right == true) and (left == false):
-      x_vel = -float(SPEED)
+      x_vel = float(SPEED)
 
     x_pos += x_vel / 60
     y_pos += y_vel / 60
@@ -183,16 +190,7 @@ proc main() =
       y_pos = float(WINDOW_HEIGHT - dest.h)
       
     dest.y = int(y_pos)
-    dest.x = int(x_pos)
-
-    if rend.renderClear() != 0:
-      break
-
-    if rend.renderCopy(tex, nil, addr(dest)) != 0:
-      break
-
-    rend.renderPresent()
-    
+    dest.x = int(x_pos)    
     sdl.delay(uint32(1000/60))
 
 
