@@ -3,9 +3,9 @@
 #include <SDL2/SDL_timer.h>
 #include <SDL2/SDL_image.h>
 
-#define TITLE "My SDL2 Window"
-#define WINDOW_WIDTH 640
-#define WINDOW_HEIGHT 480
+const char TITLE[] = "My SDL2 Window";
+const unsigned short int WINDOW_WIDTH = 640;
+const unsigned short int WINDOW_HEIGHT = 480;
 
 int main() {
     if (SDL_Init(SDL_INIT_VIDEO|SDL_INIT_TIMER) != 0) {
