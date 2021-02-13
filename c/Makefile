@@ -1,8 +1,8 @@
-CC := gcc
+CC = gcc
 
-CFLAGS := `sdl2-config --libs --cflags` -ggdb3 -O0 -std=c99 -Wall -lSDL2_image -lm
+CFLAGS = `sdl2-config --libs --cflags` -std=c99 -Wall --pedantic-errors
 
-HDRS :=
+LDFLAGS = -lSDL2_image -lm
 
 SRCS := step.c
 
@@ -12,8 +12,8 @@ EXEC := app
 
 all: $(EXEC)
 
-$(EXEC): $(OBJS) $(HDRS) Makefile
-	$(CC) -o $@ $(OBJS) $(CFLAGS)
+$(EXEC): $(OBJS) Makefile
+	$(CC) -o $@ $< $(CFLAGS) $(LDFLAGS)
 
 clean:
 	rm -f $(EXEC) *.o
